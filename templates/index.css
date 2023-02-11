@@ -1,0 +1,35 @@
+* {
+    background-color:blue;
+}
+
+header {
+    font-size: 5rem;
+}
+
+.search {
+    display: flex;
+    width: 100%;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: center;
+
+}
+
+label {
+    font-size: 2rem;
+}
+
+input {
+    width: 70%;
+    border-radius: 10px;
+}
+
+.ingredient-list {
+    list-style-type:square;
+}
+
+.card {
+    width: 30%;
+    box-shadow: 5px 10px 50px lightgray;
+    margin: 20px;
+}
