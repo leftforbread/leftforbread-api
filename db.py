@@ -72,6 +72,11 @@ def get_plan(conn, user):
         cur.execute("SELECT * FROM weekly_plans WHERE d = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (user,))
         return cur.fetchall()
 
+def get_favorites(conn, user):
+    with conn.cursor() as cur:
+        cur.execute("SELECT * FROM favorites WHERE username == %s", (user,))
+        return cur.fetchall()
+
 def login(conn, name, passw):
     with conn.cursor() as cur:
         cur.execute("SELECT username FROM user_info WHERE (username = %s AND pass = %s)", (name, passw,))
