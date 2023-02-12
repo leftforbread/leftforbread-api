@@ -122,8 +122,6 @@ def add_to_plan(conn, user, recipie, position):
             cur.execute("UPDATE weekly_plans SET d_7 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
 
 
-        
-
 def remove_plan(conn, user, position):
     with conn.cursor() as cur:
         cur.execute("UPDATE weekly_plans SET %s = "" WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (position, user,))
