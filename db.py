@@ -52,7 +52,7 @@ def get_dtag(conn, username):
     
 def add_favorite(conn, username, recipie):
     with conn.cursor() as cur:
-        cur.execute("INSERT INTO favorites (user, recipie_id) VALUES (%s, %s)", (username, recipie,))
+        cur.execute("INSERT INTO favorites (user, recipie) VALUES (%s, %s)", (username, recipie,))
     logging.debug("create_accounts(): status message: %s",
                       cur.statusmessage)
 
