@@ -43,14 +43,13 @@ def add_dtag(conn, username, tag):
 def get_htag(conn, username):
     with conn.cursor() as cur:
         cur.execute("SELECT health_tag FROM user_info WHERE username = %s", (username,))
-        return cur.fetchone()
+        return cur.fetchone()[0]
 
 def get_dtag(conn, username):
     with conn.cursor() as cur:
         cur.execute("SELECT diet_tags FROM user_info WHERE username = %s", (username,))
-        return cur.fetchone()
+        return cur.fetchone()[0]
     
-
 def add_favorite(conn, username, recipie):
     with conn.cursor() as cur:
         cur.execute("INSERT INTO favorites (user, recipie_id) VALUES (%s, %s)", (username, recipie,))
@@ -70,21 +69,39 @@ def create_plan(conn, recipies, user):
 def get_plan(conn, user):
     with conn.cursor() as cur:
         cur.execute("SELECT * FROM weekly_plans WHERE d = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (user,))
-        return cur.fetchall()
+        return cur.fetchall()[0]
 
 def get_favorites(conn, user):
     with conn.cursor() as cur:
         cur.execute("SELECT * FROM favorites WHERE username == %s", (user,))
-        return cur.fetchall()
+        return cur.fetchall()[0]
 
-def get_ingredient_nums(conn, name):
+def add_to_plan(conn, user, recipie, position):
     with conn.cursor() as cur:
-        cur.execute("SELECT num FROM ingredients WHERE name == %s", (name,))
-        return cur.fetchone()
+        cur.execute("UPDATE weekly_plans SET %s = %s WHERE username == %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (position, recipie, user,))
 
-def update_ingredient_nums(conn, name):
+def remove_plan(conn, user, position):
     with conn.cursor() as cur:
-        cur.execture("UPDATE ingredients SET num = ")
+        cur.execute("UPDATE weekly_plans SET %s = "" WHERE username == %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (position, user,))
+
+def get_ingredients(conn, user):
+    with conn.cursor() as cur:
+        cur.execute("SELECT * FROM weekly_plans WHERE username == %s", (user,))
+        jj = cur.fetchone()[0]
+        ret = []
+        i = 0
+        while i < 27:
+            temp = []
+            name = jj[i]["recipe"]["ingredients"]
+            for i in ret:
+                if i[0] == name:
+                    i[1] += jj[i]["recipe"]["quantity"]
+            else:
+                temp[0] = name;
+                temp[1] = jj[i]["recipe"]["quantity"]
+            i += 1
+        return ret
+
 
 def login(conn, name, passw):
     with conn.cursor() as cur:
@@ -112,8 +129,9 @@ def start():
 def main():
     conn = start()
     create_accounts(conn, "tester", "a")
-    cur_user = login(conn, "tester", "a")
-    print(cur_user)
+    add_htag(conn, "tester", "a")
+    add_htag(conn, "tester", "b")
+    print(get_htag(conn, "tester"))
 
 
 def parse_cmdline():
