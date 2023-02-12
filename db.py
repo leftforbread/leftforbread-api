@@ -77,6 +77,15 @@ def get_favorites(conn, user):
         cur.execute("SELECT * FROM favorites WHERE username == %s", (user,))
         return cur.fetchall()
 
+def get_ingredient_nums(conn, name):
+    with conn.cursor() as cur:
+        cur.execute("SELECT num FROM ingredients WHERE name == %s", (name,))
+        return cur.fetchone()
+
+def update_ingredient_nums(conn, name):
+    with conn.cursor() as cur:
+        cur.execture("UPDATE ingredients SET num = ")
+
 def login(conn, name, passw):
     with conn.cursor() as cur:
         cur.execute("SELECT username FROM user_info WHERE (username = %s AND pass = %s)", (name, passw,))
