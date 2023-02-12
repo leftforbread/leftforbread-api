@@ -58,48 +58,93 @@ def add_favorite(conn, username, recipie):
 
 def remove_favorite(conn, username, recipie):
     with conn.cursor() as cur:
-        cur.execute("DELETE FROM favorites WHERE username == %s AND recipie == %s", (username, recipie))
+        cur.execute("DELETE FROM favorites WHERE username == %s AND recipie == %s", (username, recipie,))
 
-def create_plan(conn, recipies, user):
+def create_plan(conn, user):
     with conn.cursor() as cur:
-        cur.execute("INSERT INTO weekly_plans (b_1, b_2, b_3, b_4, b_5, b_6, b_7, l_1, l_2, l_3, l_4, l_5, l_6, l_7, d_1, d_2, d_3, d_4, d_5, d_6, d_7, user, date) VALUES (%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d,, %s)", (recipies[0], recipies[1], recipies[2], recipies[3], recipies[4], recipies[5], recipies[6], recipies[7], recipies[8], recipies[9], recipies[10], recipies[11], recipies[12], recipies[13], recipies[14], recipies[15], recipies[16], recipies[17], recipies[18], recipies[19], recipies[20], user, date.today(),))
+        cur.execute("INSERT INTO weekly_plans (b_1, b_2, b_3, b_4, b_5, b_6, b_7, l_1, l_2, l_3, l_4, l_5, l_6, l_7, d_1, d_2, d_3, d_4, d_5, d_6, d_7, username, d) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', %s, CURRENT_DATE)", (user,))
     logging.debug("create_accounts(): status message: %s",
                       cur.statusmessage)
 
 def get_plan(conn, user):
     with conn.cursor() as cur:
-        cur.execute("SELECT * FROM weekly_plans WHERE d = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (user,))
+        cur.execute("SELECT b_1, b_2, b_3, b_4, b_5, b_6, b_7, l_1, l_2, l_3, l_4, l_5, l_6, l_7, d_1, d_2, d_3, d_4, d_5, d_6, d_7 FROM weekly_plans WHERE d = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (user,))
         return cur.fetchall()[0]
 
 def get_favorites(conn, user):
     with conn.cursor() as cur:
-        cur.execute("SELECT * FROM favorites WHERE username == %s", (user,))
+        cur.execute("SELECT * FROM favorites WHERE username = %s", (user,))
         return cur.fetchall()[0]
 
 def add_to_plan(conn, user, recipie, position):
     with conn.cursor() as cur:
-        cur.execute("UPDATE weekly_plans SET %s = %s WHERE username == %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (position, recipie, user,))
+        if position == "b_1":
+            cur.execute("UPDATE weekly_plans SET b_1 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "b_2":
+            cur.execute("UPDATE weekly_plans SET b_2 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "b_3":
+            cur.execute("UPDATE weekly_plans SET b_3 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "b_4":
+            cur.execute("UPDATE weekly_plans SET b_4 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "b_5":
+            cur.execute("UPDATE weekly_plans SET b_5 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "b_6":
+            cur.execute("UPDATE weekly_plans SET b_6 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "b_7":
+            cur.execute("UPDATE weekly_plans SET b_7 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "l_1":
+            cur.execute("UPDATE weekly_plans SET l_1 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "l_2":
+            cur.execute("UPDATE weekly_plans SET l_2 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "l_3":
+            cur.execute("UPDATE weekly_plans SET l_3- = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "l_4":
+            cur.execute("UPDATE weekly_plans SET l_4 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "l_5":
+            cur.execute("UPDATE weekly_plans SET l_5 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "l_6":
+            cur.execute("UPDATE weekly_plans SET l_6 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "l_7":
+            cur.execute("UPDATE weekly_plans SET l_7 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "d_1":
+            cur.execute("UPDATE weekly_plans SET d_1 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "d_2":
+            cur.execute("UPDATE weekly_plans SET d_2 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "d_3":
+            cur.execute("UPDATE weekly_plans SET d_3 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "d_4":
+            cur.execute("UPDATE weekly_plans SET d_4 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "d_5":
+            cur.execute("UPDATE weekly_plans SET d_5 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "d_6":
+            cur.execute("UPDATE weekly_plans SET d_6 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+        elif position == "d_7":
+            cur.execute("UPDATE weekly_plans SET d_7 = %s WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (recipie, user, user,))
+
+
+        
 
 def remove_plan(conn, user, position):
     with conn.cursor() as cur:
-        cur.execute("UPDATE weekly_plans SET %s = "" WHERE username == %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (position, user,))
+        cur.execute("UPDATE weekly_plans SET %s = "" WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (position, user,))
 
 def get_ingredients(conn, user):
     with conn.cursor() as cur:
-        cur.execute("SELECT * FROM weekly_plans WHERE username == %s", (user,))
+        cur.execute("SELECT * FROM weekly_plans WHERE username = %s", (user,))
         jj = cur.fetchone()[0]
         ret = []
         i = 0
         while i < 27:
             temp = []
-            name = jj[i]["recipe"]["ingredients"]
-            for i in ret:
-                if i[0] == name:
-                    i[1] += jj[i]["recipe"]["quantity"]
-            else:
-                temp[0] = name;
-                temp[1] = jj[i]["recipe"]["quantity"]
-            i += 1
+            if jj[i] != '{}':
+                name = jj[i]["recipe"]["ingredients"]
+                for i in ret:
+                    if i[0] == name:
+                        i[1] += jj[i]["recipe"]["quantity"]
+                else:
+                    temp[0] = name;
+                    temp[1] = jj[i]["recipe"]["quantity"]
+                i += 1
         return ret
 
 
@@ -129,9 +174,10 @@ def start():
 def main():
     conn = start()
     create_accounts(conn, "tester", "a")
-    add_htag(conn, "tester", "a")
-    add_htag(conn, "tester", "b")
-    print(get_htag(conn, "tester"))
+    create_plan(conn, "tester")
+    add_to_plan(conn, "tester", '{"h": "1"}', "b_7")
+    plan = get_plan(conn, "tester")
+    print(plan)
 
 
 def parse_cmdline():
