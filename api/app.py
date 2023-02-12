@@ -1,10 +1,10 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, render_template
 from flask_restful import Api, Resource, reqparse
 from flask_cors import CORS #comment this on deployment
 from TestApiHandler import TestApiHandler
 from getSuggestedRecipesHandler import getSuggestedRecipesHandler
 
-# from getIngredientsHandler import getIngredientsHandler
+from getIngredientsHandler import getIngredientsHandler
 # from getFavoriteRecipesHandler import getFavoriteRecipesHandler
 # from addFavoriteRecipeHandler import addFavoriteRecipesHandler
 # from removeFavoriteRecipeHandler import removeFavoriteRecipesHandler
@@ -23,18 +23,23 @@ api = Api(app)
 
 @app.route("/")
 def ok():
-    return {
+ #   return render_template("mainpage.html")  
+   return {
+
       'resultStatus': 'SUCCESS',
       'message': "api is running"
       }
 
 api.add_resource(TestApiHandler, '/flask/test')
+
 api.add_resource(getSuggestedRecipesHandler, '/getSuggestedRecipes')
 
-# api.add_resource(getIngredientsHandler, '/getIngredients')
-# api.add_resource(getFavoriteRecipesHandler, '/getFavoriteRecipes')
-# api.add_resource(addFavoriteRecipeHandler, '/addFavoriteRecipe')
-# api.add_resource(removeFavoriteRecipeHandler, '/removeFavoriteRecipe')
+api.add_resource(getIngredientsHandler, '/getIngredients')
+
+getIngredientsHandler().get()
+#api.add_resource(getFavoriteRecipesHandler, '/getFavoriteRecipes')
+#api.add_resource(addFavoriteRecipeHandler, '/addFavoriteRecipe')
+#api.add_resource(removeFavoriteRecipeHandler, '/removeFavoriteRecipe')
 
 # api.add_resource(getSuggestedRecipesHandler, '/test')
 # if __name__ == '__main__':
