@@ -1,0 +1,31 @@
+header {
+    /* font-size: 5rem; */
+    /* padding: 10px; */
+    /* height: 100px; */
+    max-height: 200px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15px;
+    padding-left: 15px;
+    margin-bottom: 15px;
+}
+
+figure {
+    max-height: inherit;
+    /* height: inherit; */
+    width: 60%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 15px;
+
+}
+
+.logo  {
+    max-height: inherit;
+    /* max-height: 300px; */
+    width: 100%;
+}
