@@ -10,7 +10,7 @@ import psycopg
 from psycopg.errors import SerializationFailure, Error
 from psycopg.rows import namedtuple_row
 
-DATABASE_URL="postgresql://jaycee:k6vLAmPNu_D6e9i5WE9TJg@older-mink-8935.7tt.cockroachlabs.cloud:26257/sec?sslmode=verify-full"
+DATABASE_URL="postgresql://jaycee:_JyGFbsyg9IvjclwMKOeNQ@older-mink-8935.7tt.cockroachlabs.cloud:26257/sec?sslmode=verify-full"
 
 cur_user = " "
 
@@ -82,7 +82,7 @@ def login(conn, name, passw):
 def start():
     opt = parse_cmdline()
     logging.basicConfig(level=logging.DEBUG if opt.verbose else logging.INFO)
-    db_url = "postgresql://jaycee:k6vLAmPNu_D6e9i5WE9TJg@older-mink-8935.7tt.cockroachlabs.cloud:26257/sec?sslmode=verify-full"
+    db_url = "postgresql://jaycee:_JyGFbsyg9IvjclwMKOeNQ@older-mink-8935.7tt.cockroachlabs.cloud:26257/sec?sslmode=verify-full"
     conn = psycopg.connect(db_url, 
                             application_name="$ docs_simplecrud_psycopg3", 
                             row_factory=namedtuple_row)
