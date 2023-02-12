@@ -57,6 +57,10 @@ def add_favorite(conn, username, recipie):
     logging.debug("create_accounts(): status message: %s",
                       cur.statusmessage)
 
+def remove_favorite(conn, username, recipie):
+    with conn.cursor() as cur:
+        cur.execute("DELETE FROM favorites WHERE username == %s AND recipie == %s", (username, recipie))
+
 def create_plan(conn, recipies, user):
     with conn.cursor() as cur:
         cur.execute("INSERT INTO weekly_plans (b_1, b_2, b_3, b_4, b_5, b_6, b_7, l_1, l_2, l_3, l_4, l_5, l_6, l_7, d_1, d_2, d_3, d_4, d_5, d_6, d_7, user, date) VALUES (%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d,, %s)", (recipies[0], recipies[1], recipies[2], recipies[3], recipies[4], recipies[5], recipies[6], recipies[7], recipies[8], recipies[9], recipies[10], recipies[11], recipies[12], recipies[13], recipies[14], recipies[15], recipies[16], recipies[17], recipies[18], recipies[19], recipies[20], user, date.today(),))
