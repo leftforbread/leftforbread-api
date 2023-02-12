@@ -145,7 +145,16 @@ li {
 .card:hover {
     transform: scale(1.1);
 }
+.fave {
+    border-radius: 5px;
+    border-style: none;
+    background-color: aquamarine;
+    transition: 200ms ease-in-out;
+}
 
+.fave:hover {
+    background-color: rgb(72, 205, 161);
+}
 footer {
     margin: 40px;
     text-align: right;
