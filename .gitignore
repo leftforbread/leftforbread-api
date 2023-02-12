@@ -1,4 +1,4 @@
-## Flask
+###### Flask
 
 venv
 *.pyc
@@ -134,7 +134,7 @@ dmypy.json
 .pyre/
 
 
-## React
+###### React
 # Logs
 logs
 *.log
@@ -239,3 +239,9 @@ dist
 
 # TernJS port file
 .tern-port
+
+
+###### Miscellaneous
+.DS_Store
+.env
+workspace.*
