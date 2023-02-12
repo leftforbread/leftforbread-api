@@ -4,6 +4,11 @@ from flask_cors import CORS #comment this on deployment
 from TestApiHandler import TestApiHandler
 from getSuggestedRecipesHandler import getSuggestedRecipesHandler
 
+# from getIngredientsHandler import getIngredientsHandler
+# from getFavoriteRecipesHandler import getFavoriteRecipesHandler
+# from addFavoriteRecipeHandler import addFavoriteRecipesHandler
+# from removeFavoriteRecipeHandler import removeFavoriteRecipesHandler
+
 # Use the second line to serve the front end with the back end
 app = Flask(__name__, static_url_path='', static_folder='')
 # app = Flask(__name__, static_url_path='', static_folder='frontend/build')
@@ -24,6 +29,12 @@ def ok():
       }
 
 api.add_resource(TestApiHandler, '/flask/test')
+api.add_resource(getSuggestedRecipesHandler, '/getSuggestedRecipesHandler')
+
+# api.add_resource(getIngredientsHandler, '/getIngredientsHandler')
+# api.add_resource(getFavoriteRecipesHandler, '/getFavoriteRecipesHandler')
+# api.add_resource(addFavoriteRecipeHandler, '/addFavoriteRecipeHandler')
+# api.add_resource(removeFavoriteRecipeHandler, '/removeFavoriteRecipeHandler')
 
 # api.add_resource(getSuggestedRecipesHandler, '/test')
 # if __name__ == '__main__':
