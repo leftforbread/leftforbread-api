@@ -6,3 +6,14 @@ body {
     color: white;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
+
+footer {
+    margin: 40px;
+    text-align: right;
+}
+
+@media screen and (max-width: 450px) {
+    .aside-and-grid {
+        flex-flow: row wrap;
+    }
+}

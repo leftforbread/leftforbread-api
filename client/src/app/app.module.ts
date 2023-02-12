@@ -8,7 +8,6 @@ import { FooterComponent } from './footer/footer.component';
 import { ExploreRecipesComponent } from './explore-recipes/explore-recipes.component';
 import { WeeklyPlanComponent } from './weekly-plan/weekly-plan.component';
 import { RecipeCardComponent } from './recipe-card/recipe-card.component';
-import { ListRecipeComponent } from './list-recipe/list-recipe.component';
 import { ListIngredientComponent } from './list-ingredient/list-ingredient.component';
 import { ListRecipeSuggestedComponent } from './list-recipe-suggested/list-recipe-suggested.component';
 import { ListRecipeFavoriteComponent } from './list-recipe-favorite/list-recipe-favorite.component';
@@ -21,7 +20,6 @@ import { ListRecipeFavoriteComponent } from './list-recipe-favorite/list-recipe-
     ExploreRecipesComponent,
     WeeklyPlanComponent,
     RecipeCardComponent,
-    ListRecipeComponent,
     ListIngredientComponent,
     ListRecipeSuggestedComponent,
     ListRecipeFavoriteComponent

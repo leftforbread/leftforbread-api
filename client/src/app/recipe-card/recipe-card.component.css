@@ -1,0 +1,13 @@
+.card {
+    width: 25%;
+    min-width: 200px !important;
+    /* max-height: 270px; */
+    box-shadow: 10px 10px 10px rgb(72, 205, 161);
+    margin: 20px;
+    transition: transform 300ms;
+    color: black;
+}
+
+.card:hover {
+    transform: scale(1.1);
+}
