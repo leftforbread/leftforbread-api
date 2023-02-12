@@ -144,7 +144,7 @@ def get_ingredients(conn, user):
                 else:
                     temp[0] = name;
                     temp[1] = jj[i]["recipe"]["quantity"]
-                i += 1
+            i += 1
         return ret
 
 
