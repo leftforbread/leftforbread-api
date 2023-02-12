@@ -23,9 +23,32 @@ export class RecipeService {
     'Content-Type': 'application/json'
   });
 
+  // Get a list of all the issues.
+  getFavoriteRecipes() {
+    return this.httpClient.get(`${this.REST_API}/getFavoriteRecipes`);
+  }
+
   // Get a list of suggested recipes.
   getSuggestedRecipes(data: any): Observable<any> {
     let API_URL = `${this.REST_API}/getSuggestedRecipes`;
+    return this.httpClient
+      .post(API_URL, JSON.stringify(data),
+        { headers: this.headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  // Add a recipe to favorites.
+  addFavoriteRecipe(data: any): Observable<any> {
+    let API_URL = `${this.REST_API}/addFavoriteRecipe`;
+    return this.httpClient
+      .post(API_URL, JSON.stringify(data),
+        { headers: this.headers })
+      .pipe(catchError(this.handleError));
+  }
+
+  // Add a recipe to favorites.
+  removeFavoriteRecipe(data: any): Observable<any> {
+    let API_URL = `${this.REST_API}/removeFavoriteRecipe`;
     return this.httpClient
       .post(API_URL, JSON.stringify(data),
         { headers: this.headers })
