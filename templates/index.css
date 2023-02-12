@@ -6,3 +6,50 @@
     justify-content: center;
     flex-flow: column nowrap;
 }
+
+header {
+    font-size: 3rem;
+    Margin: 30px;
+    /* padding: 10px; */
+    /* height: 100px; */
+    max-height: 200px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+    padding-top: 15px;
+    padding-left: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+main {
+    width: 80vw;
+}
+
+input {
+    margin: 20px 0px !important;
+    border-radius: 20px;
+    height: 3rem;
+}
+
+input:hover {
+    border-color: rgb(17, 161, 113);
+    border: 3px;
+}
+
+input:focus {
+    border: 5px;
+    border-style: solid;
+    border-color: rgb(17, 161, 113);
+}
+
+footer {
+    margin: 40px;
+    text-align: right;
+}
