@@ -1,4 +1,4 @@
-from asyncio.windows_events import NULL
+
 import logging
 import os
 import random
@@ -187,7 +187,7 @@ def main():
     create_plan(conn, "tester")
     #add_to_plan(conn, "tester", '{"h": "1"}', "b_7")
     #plan = get_plan(conn, "tester")
-    print(get_ingredients(conn, "tester"))
+    print(get_favorites(conn, "tester"))
     #print(plan)
 
 def parse_cmdline():
