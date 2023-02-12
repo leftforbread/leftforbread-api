@@ -16,6 +16,7 @@ import { RecipeCardComponent } from './recipe-card/recipe-card.component';
 import { ListIngredientComponent } from './list-ingredient/list-ingredient.component';
 import { ListRecipeSuggestedComponent } from './list-recipe-suggested/list-recipe-suggested.component';
 import { ListRecipeFavoriteComponent } from './list-recipe-favorite/list-recipe-favorite.component';
+import { WeeklyPlanDayComponent } from './weekly-plan-day/weekly-plan-day.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ListRecipeFavoriteComponent } from './list-recipe-favorite/list-recipe-
     RecipeCardComponent,
     ListIngredientComponent,
     ListRecipeSuggestedComponent,
-    ListRecipeFavoriteComponent
+    ListRecipeFavoriteComponent,
+    WeeklyPlanDayComponent
   ],
   imports: [
     BrowserModule,
