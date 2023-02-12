@@ -33,7 +33,10 @@ main {
 }
 
 input {
+    
+
     margin: 20px 0px !important;
+    margin-top: 0px !important;
     border-radius: 20px;
     height: 3rem;
 }
@@ -52,4 +55,5 @@ input:focus {
 footer {
     margin: 40px;
     text-align: right;
+    width: 90%;
 }
