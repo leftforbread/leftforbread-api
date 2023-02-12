@@ -129,10 +129,12 @@ def remove_plan(conn, user, position):
 def get_ingredients(conn, user):
     with conn.cursor() as cur:
         cur.execute("SELECT * FROM weekly_plans WHERE username = %s", (user,))
-        jj = cur.fetchone()[0]
+        jj = cur.fetchone()
+        print(jj)
+        print("jj above yoooooo")
         ret = []
-        i = 0
-        while i < 27:
+        i = 1
+        while i < 28:
             temp = []
             if jj[i] != '':
                 name = jj[i]["recipe"]["ingredients"]
@@ -140,8 +142,9 @@ def get_ingredients(conn, user):
                     if i[0] == name:
                         i[1] += jj[i]["recipe"]["quantity"]
                 else:
-                    temp[0] = name;
+                    temp[0] = name
                     temp[1] = jj[i]["recipe"]["quantity"]
+            ret.append(temp)
             i += 1
         return ret
 
@@ -179,6 +182,7 @@ def main():
     create_plan(conn, "tester")
     add_to_plan(conn, "tester", '{"h": "1"}', "b_7")
     plan = get_plan(conn, "tester")
+    print(get_ingredients(conn, "tester"))
     print(plan)
 
 def parse_cmdline():
