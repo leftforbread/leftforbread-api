@@ -16,50 +16,52 @@ DATABASE_URL="postgresql://jaycee:k6vLAmPNu_D6e9i5WE9TJg@older-mink-8935.7tt.coc
 def create_accounts(conn, username, password):
     with conn.cursor() as cur:
         cur.execute(
-            "INSERT INTO user_info (username, pass, health_tag, diet_tag) VALUES (%s, %s, ARRAY[], ARRAY[])", (username, password))
+            "INSERT INTO user_info (username, pass, health_tag, diet_tags) VALUES (%s, %s, ARRAY[], ARRAY[])", (username, password,))
         logging.debug("create_accounts(): status message: %s",
                       cur.statusmessage)
 
 
 def delete_accounts(conn, username):
     with conn.cursor() as cur:
-        cur.execute("DELETE FROM user_info WHERE username == %s", (username))
+        cur.execute("DELETE FROM user_info WHERE username == %s", (username,))
         logging.debug("delete_accounts(): status message: %s",
                       cur.statusmessage)
 
 def add_htag(conn, username, tag):
     with conn.cursor() as cur:
-        cur.execute("UPDATE user_info SET health_tag = array_append(health_tag, %s) WHERE username = %s", (tag, username))
+        cur.execute("UPDATE user_info SET health_tag = array_append(health_tag, %s) WHERE username = %s", (tag, username,))
     logging.debug("add_htag(): status message: %s",
                       cur.statusmessage)
 
 def add_dtag(conn, username, tag):
     with conn.cursor() as cur:
-        cur.execute("UPDATE user_info SET diet_tags = array_append(diet_tags, %s) WHERE username = %s", (tag, username))
+        cur.execute("UPDATE user_info SET diet_tags = array_append(diet_tags, %s) WHERE username = %s", (tag, username,))
     logging.debug("add_dtag(): status message: %s",
                       cur.statusmessage)
 
 def get_htag(conn, username):
     with conn.cursor() as cur:
-        return cur.execute("SELECT health_tag FROM user_info WHERE username = %s", (username))
+        return cur.execute("SELECT health_tag FROM user_info WHERE username = %s", (username,))
 
 def get_dtag(conn, username):
     with conn.cursor() as cur:
-        return cur.execute("SELECT diet_tags FROM user_info WHERE username = %s", (username))
+        cur.execute("SELECT diet_tags FROM user_info WHERE username = %s", (username,))
+        print(cur.fetchone())
+    
 
 def add_favorite(conn, username, recipie):
     with conn.cursor() as cur:
-        cur.execute("INSERT INTO favorites (user, recipie_id) VALUES (%s, %s)", (username, recipie))
+        cur.execute("INSERT INTO favorites (user, recipie_id) VALUES (%s, %s)", (username, recipie,))
     logging.debug("create_accounts(): status message: %s",
                       cur.statusmessage)
 
 def create_plan(conn, recipies, user):
     with conn.cursor() as cur:
-        cur.execute("INSERT INTO weekly_plans (b_1, b_2, b_3, b_4, b_5, b_6, b_7, l_1, l_2, l_3, l_4, l_5, l_6, l_7, d_1, d_2, d_3, d_4, d_5, d_6, d_7, user, date) VALUES (%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d,, %s)", (recipies[0], recipies[1], recipies[2], recipies[3], recipies[4], recipies[5], recipies[6], recipies[7], recipies[8], recipies[9], recipies[10], recipies[11], recipies[12], recipies[13], recipies[14], recipies[15], recipies[16], recipies[17], recipies[18], recipies[19], recipies[20], user, date.today()))
+        cur.execute("INSERT INTO weekly_plans (b_1, b_2, b_3, b_4, b_5, b_6, b_7, l_1, l_2, l_3, l_4, l_5, l_6, l_7, d_1, d_2, d_3, d_4, d_5, d_6, d_7, user, date) VALUES (%d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d, %d,, %s)", (recipies[0], recipies[1], recipies[2], recipies[3], recipies[4], recipies[5], recipies[6], recipies[7], recipies[8], recipies[9], recipies[10], recipies[11], recipies[12], recipies[13], recipies[14], recipies[15], recipies[16], recipies[17], recipies[18], recipies[19], recipies[20], user, date.today(),))
     logging.debug("create_accounts(): status message: %s",
                       cur.statusmessage)
 
-
+#def get_plan(conn, user,)
 
 
 
@@ -122,7 +124,10 @@ def main():
         #fromId = ids.pop()
 
         try:
-            run_transaction(conn, lambda conn:  create_accounts(conn, "test" , "123"))
+            create_accounts(conn, "tester" , "123")
+            add_dtag(conn, "tester", "a")
+            get_dtag(conn, "tester")
+            #run_transaction(conn, lambda conn:  create_accounts(conn, "test" , "123"))
         except ValueError as ve:
             # Below, we print the error and continue on so this example is easy to
             # run (and run, and run...).  In real code you should handle this error
