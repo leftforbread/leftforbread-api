@@ -1,12 +1,11 @@
 <div class="cards">
-    <div class="card">
-        <img src="assets/images/example.jpg" class="card-img-top" alt="Recipe Image">
+    <!-- <app-recipe-card *ngFor="let recipeObj of SuggestedRecipes" [rObj]="recipeObj"></app-recipe-card> -->
+    <div class="card" *ngFor="let recipeObj of SuggestedRecipes">
+        <img src="{{recipeObj.recipe.image}}" class="card-img-top" alt="Recipe Image">
         <div class="card-body">
-            <h5 class="card-title">[Recipe Title]</h5>
-            <p class="card-text">[Recipe Description]</p>
-            <p class="card-text"><small class="text-muted">[Ingredients from inputted list that are in this
-                    recipe]</small></p>
+            <h5 class="card-title">{{recipeObj.recipe.label}}</h5>
+            <a href="{{recipeObj.recipe.url}}" class="card-text">Link to recipe</a>
+            <p class="card-text"><small class="text-muted">{{recipeObj.recipe.ingredientLines}}</small></p>
         </div>
     </div>
-    <!-- <app-recipe-card *ngFor="let recipeObj of SuggestedRecipes" [rObj]="recipeObj"></app-recipe-card> -->
 </div>
