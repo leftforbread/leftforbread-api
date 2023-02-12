@@ -128,6 +128,8 @@ import json
 import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
+EDAMAM_APP_ID="81e2e983"
+EDAMAM_APP_KEY="7e0267923a1bb9b99a87c5020f6674c7"
 
 """Given an array of ingredients (e.g. ["carrot", "onion", "celery"]), return a json of the most relevent recipes."""
 def getRecipeSearch(ingredients):

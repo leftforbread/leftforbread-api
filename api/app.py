@@ -29,12 +29,12 @@ def ok():
       }
 
 api.add_resource(TestApiHandler, '/flask/test')
-api.add_resource(getSuggestedRecipesHandler, '/getSuggestedRecipesHandler')
+api.add_resource(getSuggestedRecipesHandler, '/getSuggestedRecipes')
 
-# api.add_resource(getIngredientsHandler, '/getIngredientsHandler')
-# api.add_resource(getFavoriteRecipesHandler, '/getFavoriteRecipesHandler')
-# api.add_resource(addFavoriteRecipeHandler, '/addFavoriteRecipeHandler')
-# api.add_resource(removeFavoriteRecipeHandler, '/removeFavoriteRecipeHandler')
+# api.add_resource(getIngredientsHandler, '/getIngredients')
+# api.add_resource(getFavoriteRecipesHandler, '/getFavoriteRecipes')
+# api.add_resource(addFavoriteRecipeHandler, '/addFavoriteRecipe')
+# api.add_resource(removeFavoriteRecipeHandler, '/removeFavoriteRecipe')
 
 # api.add_resource(getSuggestedRecipesHandler, '/test')
 # if __name__ == '__main__':
