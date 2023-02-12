@@ -8,7 +8,7 @@ from datetime import date
 
 import psycopg
 from psycopg.errors import SerializationFailure, Error
-from psycopg.rows import namedtuple_row
+from psycopg.rows import namedtuple_row, dict_row
 
 DATABASE_URL="postgresql://jaycee:_JyGFbsyg9IvjclwMKOeNQ@older-mink-8935.7tt.cockroachlabs.cloud:26257/sec?sslmode=verify-full"
 
@@ -134,7 +134,7 @@ def get_ingredients(conn, user):
         i = 0
         while i < 27:
             temp = []
-            if jj[i] != '{}':
+            if jj[i] != '':
                 name = jj[i]["recipe"]["ingredients"]
                 for i in ret:
                     if i[0] == name:
@@ -156,6 +156,10 @@ def login(conn, name, passw):
             print("Login Success")
             return ret
 
+# for sqlite3 only
+# def dict_factory(cursor, row):
+#     fields = [column[0] for column in cursor.description]
+#     return {key: value for key, value in zip(fields, row)}
 
 def start():
     opt = parse_cmdline()
@@ -164,10 +168,10 @@ def start():
     conn = psycopg.connect(db_url, 
                             application_name="$ docs_simplecrud_psycopg3", 
                             row_factory=namedtuple_row)
+    # import sqlite3
+    # conn = sqlite3.connect('temp.sqlite')
+    # conn.row_factory = dict_factory
     return conn
-
-
-
 
 def main():
     conn = start()
@@ -176,7 +180,6 @@ def main():
     add_to_plan(conn, "tester", '{"h": "1"}', "b_7")
     plan = get_plan(conn, "tester")
     print(plan)
-
 
 def parse_cmdline():
     parser = ArgumentParser(description=__doc__,

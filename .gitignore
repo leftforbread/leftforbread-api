@@ -244,4 +244,4 @@ dist
 ###### Miscellaneous
 .DS_Store
 .env
-workspace.*
+workspace*

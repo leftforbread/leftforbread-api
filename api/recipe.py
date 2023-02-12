@@ -129,10 +129,7 @@ import ssl
 ssl._create_default_https_context = ssl._create_unverified_context
 
 
-
-
-"""Given an array of ingredients (e.g. ["carrot", "onion", "celery"]),
-    return a json of the most relevent recipes."""
+"""Given an array of ingredients (e.g. ["carrot", "onion", "celery"]), return a json of the most relevent recipes."""
 def getRecipeSearch(ingredients):
     ingList = ""
     if ingredients:
@@ -149,23 +146,3 @@ def getRecipeById(id):
     with urlopen("https://api.edamam.com/api/recipes/v2/" + str(id) + "?type=public" + \
         "&app_id=" + str(EDAMAM_APP_ID) + "&app_key=" + str(EDAMAM_APP_KEY)) as response:
         return json.loads(response.read())
-
-
-"""Given a string name of ingredients or a recipe name: ("Carrot Onion Celery") or ("Fettucine Alfredo")
-    return a json of the most relevent recipes.
-   
-Can search for a single recipe by setting name to the recipe name and accessing the first recipe returned
-Alternatively, can use like getRecipeSearch, but instead of having the ingredients in array, they are in a string name seperated by spaces.
-"""
-def getSingleRecipe(name):
-    with urlopen("https://api.edamam.com/api/recipes/v2?type=public&q=" + \
-        name.replace(" ", "%2C") + "&app_id=" + str(EDAMAM_APP_ID) + "&app_key=" + str(EDAMAM_APP_KEY)) as response:
-        return response.read()
-
-def main():
-    # print(getRecipeSearch(["chicken", "cilantro", "fettucini"]))
-    print(getRecipeById("600c58442d3033f4418ba78b52a15304"))
-
-if __name__ == '__main__':
-    # 600c58442d3033f4418ba78b52a15304
-    main()
