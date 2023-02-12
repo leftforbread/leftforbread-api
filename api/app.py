@@ -4,7 +4,7 @@ from flask_cors import CORS #comment this on deployment
 from TestApiHandler import TestApiHandler
 from getSuggestedRecipesHandler import getSuggestedRecipesHandler
 
-from getIngredientsHandler import getIngredientsHandler
+# from getIngredientsHandler import getIngredientsHandler
 # from getFavoriteRecipesHandler import getFavoriteRecipesHandler
 # from addFavoriteRecipeHandler import addFavoriteRecipesHandler
 # from removeFavoriteRecipeHandler import removeFavoriteRecipesHandler
@@ -34,9 +34,9 @@ api.add_resource(TestApiHandler, '/flask/test')
 
 api.add_resource(getSuggestedRecipesHandler, '/getSuggestedRecipes')
 
-api.add_resource(getIngredientsHandler, '/getIngredients')
+# api.add_resource(getIngredientsHandler, '/getIngredients')
 
-getIngredientsHandler().get()
+# getIngredientsHandler().get()
 #api.add_resource(getFavoriteRecipesHandler, '/getFavoriteRecipes')
 #api.add_resource(addFavoriteRecipeHandler, '/addFavoriteRecipe')
 #api.add_resource(removeFavoriteRecipeHandler, '/removeFavoriteRecipe')
