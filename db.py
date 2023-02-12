@@ -41,12 +41,13 @@ def add_dtag(conn, username, tag):
 
 def get_htag(conn, username):
     with conn.cursor() as cur:
-        return cur.execute("SELECT health_tag FROM user_info WHERE username = %s", (username,))
+        cur.execute("SELECT health_tag FROM user_info WHERE username = %s", (username,))
+        cur.fetchone()
 
 def get_dtag(conn, username):
     with conn.cursor() as cur:
         cur.execute("SELECT diet_tags FROM user_info WHERE username = %s", (username,))
-        print(cur.fetchone())
+        cur.fetchone()
     
 
 def add_favorite(conn, username, recipie):
@@ -61,7 +62,10 @@ def create_plan(conn, recipies, user):
     logging.debug("create_accounts(): status message: %s",
                       cur.statusmessage)
 
-#def get_plan(conn, user,)
+def get_plan(conn, user):
+    with conn.cursor() as cur:
+        cur.execute("SELECT * FROM weekly_plans WHERE date = SELECT MAX(date) FROM weekly_plans WHERE username = %s", (user,))
+        cur.fetchall()
 
 
 
@@ -126,7 +130,8 @@ def main():
         try:
             create_accounts(conn, "tester" , "123")
             add_dtag(conn, "tester", "a")
-            get_dtag(conn, "tester")
+            tag = get_dtag(conn, "tester")
+            print(tag)
             #run_transaction(conn, lambda conn:  create_accounts(conn, "test" , "123"))
         except ValueError as ve:
             # Below, we print the error and continue on so this example is easy to
