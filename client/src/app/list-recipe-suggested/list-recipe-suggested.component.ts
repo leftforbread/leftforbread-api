@@ -18,7 +18,7 @@ export class ListRecipeSuggestedComponent implements OnInit {
   // Angular Init method, retrieve all notifications from database
   ngOnInit(): void {
     this.recipeService.getSuggestedRecipes({
-      "ingredients": "[\"chicken\",\"spinach\",\"fettucini\"]"
+      "ingredients": "[\"chicken\",\"kale\"]"
     }).subscribe(res => {
       console.log(res.hits)
       this.SuggestedRecipes = res.hits;
