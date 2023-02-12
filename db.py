@@ -12,6 +12,7 @@ from psycopg.rows import namedtuple_row
 
 DATABASE_URL="postgresql://jaycee:k6vLAmPNu_D6e9i5WE9TJg@older-mink-8935.7tt.cockroachlabs.cloud:26257/sec?sslmode=verify-full"
 
+cur_user = " "
 
 def create_accounts(conn, username, password):
     with conn.cursor() as cur:
@@ -42,12 +43,12 @@ def add_dtag(conn, username, tag):
 def get_htag(conn, username):
     with conn.cursor() as cur:
         cur.execute("SELECT health_tag FROM user_info WHERE username = %s", (username,))
-        cur.fetchone()
+        return cur.fetchone()
 
 def get_dtag(conn, username):
     with conn.cursor() as cur:
         cur.execute("SELECT diet_tags FROM user_info WHERE username = %s", (username,))
-        cur.fetchone()
+        return cur.fetchone()
     
 
 def add_favorite(conn, username, recipie):
@@ -64,90 +65,37 @@ def create_plan(conn, recipies, user):
 
 def get_plan(conn, user):
     with conn.cursor() as cur:
-        cur.execute("SELECT * FROM weekly_plans WHERE date = SELECT MAX(date) FROM weekly_plans WHERE username = %s", (user,))
-        cur.fetchall()
+        cur.execute("SELECT * FROM weekly_plans WHERE d = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (user,))
+        return cur.fetchall()
+
+def login(conn, name, passw):
+    with conn.cursor() as cur:
+        cur.execute("SELECT username FROM user_info WHERE (username = %s AND pass = %s)", (name, passw,))
+        ret = cur.fetchone()
+        if ret == None:
+            print("Login Failed")
+        else:
+            print("Login Success")
+            return ret
 
 
+def start():
+    opt = parse_cmdline()
+    logging.basicConfig(level=logging.DEBUG if opt.verbose else logging.INFO)
+    db_url = "postgresql://jaycee:k6vLAmPNu_D6e9i5WE9TJg@older-mink-8935.7tt.cockroachlabs.cloud:26257/sec?sslmode=verify-full"
+    conn = psycopg.connect(db_url, 
+                            application_name="$ docs_simplecrud_psycopg3", 
+                            row_factory=namedtuple_row)
+    return conn
 
 
-def run_transaction(conn, op, max_retries=3):
-    """
-    Execute the operation *op(conn)* retrying serialization failure.
-
-    If the database returns an error asking to retry the transaction, retry it
-    *max_retries* times before giving up (and propagate it).
-    """
-    # leaving this block the transaction will commit or rollback
-    # (if leaving with an exception)
-    with conn.transaction():
-        for retry in range(1, max_retries + 1):
-            try:
-                op(conn)
-
-                # If we reach this point, we were able to commit, so we break
-                # from the retry loop.
-                return
-
-            except SerializationFailure as e:
-                # This is a retry error, so we roll back the current
-                # transaction and sleep for a bit before retrying. The
-                # sleep time increases for each failed transaction.
-                logging.debug("got error: %s", e)
-                conn.rollback()
-                logging.debug("EXECUTE SERIALIZATION_FAILURE BRANCH")
-                sleep_seconds = (2**retry) * 0.1 * (random.random() + 0.5)
-                logging.debug("Sleeping %s seconds", sleep_seconds)
-                time.sleep(sleep_seconds)
-
-            except psycopg.Error as e:
-                logging.debug("got error: %s", e)
-                logging.debug("EXECUTE NON-SERIALIZATION_FAILURE BRANCH")
-                raise e
-
-        raise ValueError(
-            f"transaction did not succeed after {max_retries} retries")
 
 
 def main():
-    opt = parse_cmdline()
-    logging.basicConfig(level=logging.DEBUG if opt.verbose else logging.INFO)
-    try:
-        # Attempt to connect to cluster with connection string provided to
-        # script. By default, this script uses the value saved to the
-        # DATABASE_URL environment variable.
-        # For information on supported connection string formats, see
-        # https://www.cockroachlabs.com/docs/stable/connect-to-the-database.html.
-        db_url = "postgresql://jaycee:k6vLAmPNu_D6e9i5WE9TJg@older-mink-8935.7tt.cockroachlabs.cloud:26257/sec?sslmode=verify-full"
-        conn = psycopg.connect(db_url, 
-                               application_name="$ docs_simplecrud_psycopg3", 
-                               row_factory=namedtuple_row)
-        #ids = create_accounts(conn)
-        #create_accounts(conn, "test" , "123")
-            
-        #toId = ids.pop()
-        #fromId = ids.pop()
-
-        try:
-            create_accounts(conn, "tester" , "123")
-            add_dtag(conn, "tester", "a")
-            tag = get_dtag(conn, "tester")
-            print(tag)
-            #run_transaction(conn, lambda conn:  create_accounts(conn, "test" , "123"))
-        except ValueError as ve:
-            # Below, we print the error and continue on so this example is easy to
-            # run (and run, and run...).  In real code you should handle this error
-            # and any others thrown by the database interaction.
-            logging.debug("run_transaction(conn, op) failed: %s", ve)
-            pass
-        except psycopg.Error as e:
-            logging.debug("got error: %s", e)
-            raise e
-
-
-    except Exception as e:
-        logging.fatal("database connection failed")
-        logging.fatal(e)
-        return
+    conn = start()
+    create_accounts(conn, "tester", "a")
+    cur_user = login(conn, "tester", "a")
+    print(cur_user)
 
 
 def parse_cmdline():
