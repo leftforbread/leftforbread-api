@@ -1,8 +1,10 @@
+from asyncio.windows_events import NULL
 import logging
 import os
 import random
 import time
 from argparse import ArgumentParser, RawTextHelpFormatter
+import json
 
 from datetime import date
 
@@ -43,12 +45,12 @@ def add_dtag(conn, username, tag):
 def get_htag(conn, username):
     with conn.cursor() as cur:
         cur.execute("SELECT health_tag FROM user_info WHERE username = %s", (username,))
-        return cur.fetchone()[0]
+        return cur.fetchone()
 
 def get_dtag(conn, username):
     with conn.cursor() as cur:
         cur.execute("SELECT diet_tags FROM user_info WHERE username = %s", (username,))
-        return cur.fetchone()[0]
+        return cur.fetchone()
     
 def add_favorite(conn, username, recipie):
     with conn.cursor() as cur:
@@ -69,12 +71,12 @@ def create_plan(conn, user):
 def get_plan(conn, user):
     with conn.cursor() as cur:
         cur.execute("SELECT b_1, b_2, b_3, b_4, b_5, b_6, b_7, l_1, l_2, l_3, l_4, l_5, l_6, l_7, d_1, d_2, d_3, d_4, d_5, d_6, d_7 FROM weekly_plans WHERE d = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (user,))
-        return cur.fetchall()[0]
+        return cur.fetchall()
 
 def get_favorites(conn, user):
     with conn.cursor() as cur:
         cur.execute("SELECT * FROM favorites WHERE username = %s", (user,))
-        return cur.fetchall()[0]
+        return cur.fetchall()
 
 def add_to_plan(conn, user, recipie, position):
     with conn.cursor() as cur:
@@ -127,23 +129,26 @@ def remove_plan(conn, user, position):
         cur.execute("UPDATE weekly_plans SET %s = "" WHERE username = %s AND d  = (SELECT MAX(d) FROM weekly_plans WHERE username = %s)", (position, user,))
 
 def get_ingredients(conn, user):
+
     with conn.cursor() as cur:
         cur.execute("SELECT * FROM weekly_plans WHERE username = %s", (user,))
         jj = cur.fetchone()
-        print(jj)
-        print("jj above yoooooo")
         ret = []
         i = 1
         while i < 28:
             temp = []
-            if jj[i] != '':
-                name = jj[i]["recipe"]["ingredients"]
-                for i in ret:
-                    if i[0] == name:
-                        i[1] += jj[i]["recipe"]["quantity"]
-                else:
-                    temp[0] = name
-                    temp[1] = jj[i]["recipe"]["quantity"]
+            try:
+                d = jj[i]
+                if d != None:
+                    name = d.recipe.ingredients.text
+                    for i in ret:
+                        if i[0] == name:
+                            i[1] += d.recipe.ingredientsquantity
+                    else:
+                        temp[0] = name
+                        temp[1] = d.recipe.ingredients.quantity
+            except Error:
+                print('0')
             ret.append(temp)
             i += 1
         return ret
@@ -180,10 +185,10 @@ def main():
     conn = start()
     create_accounts(conn, "tester", "a")
     create_plan(conn, "tester")
-    add_to_plan(conn, "tester", '{"h": "1"}', "b_7")
-    plan = get_plan(conn, "tester")
+    #add_to_plan(conn, "tester", '{"h": "1"}', "b_7")
+    #plan = get_plan(conn, "tester")
     print(get_ingredients(conn, "tester"))
-    print(plan)
+    #print(plan)
 
 def parse_cmdline():
     parser = ArgumentParser(description=__doc__,
